@@ -1,7 +1,8 @@
 version: "3.9"
 services:
-  server:
-    image: ghcr.io/khoj-ai/khoj:latest
+  server-gpu:
+    # image: ghcr.io/khoj-ai/khoj:latest
+    build: .
     ports:
       # If changing the local port (left hand side), no other changes required.
       # If changing the remote port (right hand side),
@@ -26,3 +27,10 @@ services:
       - ./tests/data/models/:/data/models/
     # Use 0.0.0.0 to explicitly set the host ip for the service on the container. https://pythonspeed.com/articles/docker-connection-refused/
     command: --host="0.0.0.0" --port=42110 -vv
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:kinetic
+FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
 LABEL org.opencontainers.image.source https://github.com/khoj-ai/khoj
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y build-essential python3-dev python3-pip && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install System Dependencies
 RUN apt update -y && \
